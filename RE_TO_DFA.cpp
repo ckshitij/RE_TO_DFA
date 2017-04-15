@@ -1,25 +1,25 @@
 #include<bits/stdc++.h>
-#define vec(i) vector<(i)>
-#define pb push_back
+#define vec(i) vector<(i)> 	//Vector macro
+#define pb push_back	
 
 using namespace std;
 
-int gpos,fl_pos;
-vector<int> follow_pos[30],state[30];
-map<int,char> alpha_int;
+int gpos,fl_pos;		// for finding  position and follow position index
+vector<int> follow_pos[30],state[30];	// follow_pos store the follow position and state store total no of Dstates
+map<int,char> alpha_int;	
 set<char> in_alpha;
 
-vec(int) operator +(vec(int) a,vec(int) b)
+vec(int) operator +(vec(int) a,vec(int) b) 	// operator Overloading for vector Additions
 {
 	a.insert(a.end(),b.begin(),b.end());
-	sort(a.begin(),a.end());
-	a.erase(unique(a.begin(),a.end()),a.end());
+	sort(a.begin(),a.end());		// required for making unique element
+	a.erase(unique(a.begin(),a.end()),a.end()); //for finding unique element within vector
 	return a;
 }
 
-struct tree
+struct tree			// Structure for Treenode
 {
-	char alpha;
+	char alpha;		
 	int pos;
 	bool nullable;
 	vec(int) fpos,lpos;
@@ -33,7 +33,7 @@ bool is_op(char ch)
 	return false;
 }
 
-tree *create(char ch,int pos)
+tree *create(char ch,int pos)		// Creating Node Memory and initialization
 {
 	tree *node = new tree;
 	node->alpha = ch;
@@ -49,7 +49,7 @@ void vec_print(vec(int) v)
 		cout<<v[i]<<" ";
 }
 
-void postfix(tree *root)
+void postfix(tree *root)		// For Traversing The tree
 {
 	if(root)
 	{
@@ -60,14 +60,14 @@ void postfix(tree *root)
 	}
 }
 
-void dfa(tree *root,string input)
+void dfa(tree *root,string input)	// Finding DFA
 {
 	int num_state = 1,cur_state = 1;
 	char ch = 'A';
 	vec(int) temp;
-	map< vector<int> , char> out_state;
-	map< vector<int> , map< char , vector<int> > >  re_dfa;
-	state[num_state++] = root->fpos;
+	map< vector<int> , char> out_state;	// Out_state used for removing Redundant States
+	map< vector<int> , map< char , vector<int> > >  re_dfa;  //for Storing The final DFA state
+	state[num_state++] = root->fpos;	// total number of State , Starting with root's First position
 	out_state[root->fpos] = ch++ ;
 	while(1)
 	{
@@ -90,7 +90,7 @@ void dfa(tree *root,string input)
 			break;
 		cur_state++;
 	}
-	cout<<"\n\nThe Final State Table :\n\n";
+	cout<<"\n\nThe Final State Table :\n\n"; // for Displaying the Final DFA states
 	for(auto an : re_dfa)
 	{
 		cout<<"{ "; 
@@ -175,7 +175,7 @@ int main()
 	cout<<"\n\nNODE"<<sp<<"Position"<<"       "<<"Nullable"<<"        "<<"First position"<<"		   "<<"Last position"<<endl;
 	postfix(temp);
 	cout<<"\n\nFollow Position"<<endl;
-	for(int i = 1 ; i <= fl_pos ; i++)
+	for(int i = 1 ; i <= fl_pos ; i++)	// Display of Follow Position
 	{
 		cout<<i<<sp<<alpha_int[i]<<sp<<"{ ";
 		for(int j = 0; j < follow_pos[i].size() ; j++)
