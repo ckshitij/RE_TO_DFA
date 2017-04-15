@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#define vec(i) vector<int>
+#define vec(i) vector<(i)>
 #define pb push_back
 
 using namespace std;
